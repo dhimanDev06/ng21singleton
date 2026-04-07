@@ -1,0 +1,45 @@
+<div class="container mt-4">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            [class.active]="activeTab === 'home'"
+            data-bs-toggle="tab"
+            href="JavaScript:void(0)"
+            role="tab"
+            (click)="setActive('home')"
+          >
+            Home
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            [class.active]="activeTab === 'user'"
+            href="JavaScript:void(0)"
+            data-bs-toggle="tab"
+            role="tab"
+            (click)="setActive('user')"
+          >
+            User
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content mt-3">
+        <div
+          class="tab-pane"
+          [class.active]="activeTab === 'home'"
+          role="tabpanel"
+        >
+          <app-photos />
+        </div>
+        <div
+          class="tab-pane"
+          [class.active]="activeTab === 'user'"
+          role="tabpanel"
+        >
+          <app-comments />
+        </div>
+      </div>
+    </div>

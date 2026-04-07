@@ -1,0 +1,11 @@
+<p>user works!</p>
+
+@if (object != null) {
+  <div>
+    <h2>{{ object.title }}</h2>
+    <pre>{{ object | json }}</pre>
+  </div>
+} @else {
+  <p>No object found.</p>
+}
+

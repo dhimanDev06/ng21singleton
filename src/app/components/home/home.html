@@ -1,0 +1,17 @@
+<!-- <p>home works! {{isLoading}}</p>
+
+@if (isLoading) {
+  <p>Loading...</p>
+} @else {
+  <ul>
+    @for (item of objects; track item.id) {
+      <li>{{ item.title }} - {{ item.body }}</li>
+    }
+  </ul>
+} -->
+
+@for(post of (posts$ | async)!; track $index) {
+    <div class="book-item ps-1">
+        <p>{{post.title}} ({{post.id}})</p> 
+  </div>
+}
