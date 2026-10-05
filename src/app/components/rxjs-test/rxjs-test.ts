@@ -11,26 +11,54 @@ import { RouterModule } from '@angular/router';
   styleUrl: './rxjs-test.scss',
 })
 export class RxjsTest implements OnDestroy {
+
   private destroyRef = inject(DestroyRef);
   private apiService = inject(ApiService);
   private destroy$ = new Subject<void>();
-  userData:any;
-  constructor() {
-    this.apiService.getAllObjects().pipe(
-      // takeUntilDestroyed(this.destroyRef),
-      takeUntil(this.destroy$),
-      finalize(() => console.log('Unsubscribed!'))
-    ).subscribe((users) => {
-      this.userData = users;
-      console.log('Users:', this.userData);
-    });
-  }
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-    console.log('Users:', this.userData);
 
-    // alert("Dhiman");
-    // throw new Error('Method not implemented.');
+  userData: any;
+
+  constructor() {
+
+    console.log('🟢 Component Created');
+
+    this.apiService.getAllObjects().pipe(
+
+      // takeUntilDestroyed(this.destroyRef), 
+      // If you use takeUntilDestroyed(this.destroyRef), you normally do not need ngOnDestroy() just for subscription cleanup.
+
+      takeUntil(this.destroy$),
+
+      finalize(() => {
+        console.log('🔴 Observable Unsubscribed / Completed');
+      })
+
+    ).subscribe((users) => {
+
+      this.userData = users;
+
+      console.log('👤 Users:', this.userData);
+
+    });
+
   }
+
+  ngOnDestroy(): void {
+
+    console.log('⚠️ ngOnDestroy called');
+
+    console.log('Before destroy:', this.userData);
+
+    // This tells takeUntil() to unsubscribe
+    this.destroy$.next();
+
+    // Complete destroy$
+    this.destroy$.complete();
+
+    console.log('✅ destroy$ completed');
+
+    console.log('After destroy:', this.userData);
+
+  }
+
 }
