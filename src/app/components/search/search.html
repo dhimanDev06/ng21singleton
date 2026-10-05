@@ -1,0 +1,34 @@
+<h3>Search Results example switchMap</h3>
+<a routerLink="/rxjs">Go to RxJS Test</a>
+<input type="text" [(ngModel)]="searchQuery" (keyup)="onSearch()" placeholder="Search...">
+<button (click)="searchQuery = ''">Clear</button>
+
+<h3>Create User form submit example of exhaustMap</h3>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <label>Name:</label>
+      <input formControlName="name" placeholder="Enter name" />
+
+      <label>Job:</label>
+      <input formControlName="job" placeholder="Enter job" />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div *ngIf="response">
+      <h3>Response:</h3>
+      <pre>{{ response | json }}</pre>
+    </div>
+<app-child-user-one></app-child-user-one>
+<app-child-user-two></app-child-user-two>
+<!-- <h2>User List</h2>
+
+<div *ngIf="users$ | async as users; else loading">
+  <div *ngFor="let user of users">
+    <h4>{{ user.name }}</h4>
+    <p>{{ user.email }}</p>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Loading users...</p>
+</ng-template> -->

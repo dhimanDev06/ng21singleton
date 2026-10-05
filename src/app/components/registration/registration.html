@@ -1,0 +1,25 @@
+<p>registration works!</p>
+<form [formGroup]="registrationForm" (ngSubmit)="submit()">
+  <label #item>Name</label>
+  <input #nameInput formControlName="username">
+  @if(registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched){
+    <p  style="color:red">
+      Required
+    </p>
+  }
+  <br>
+  <label #item>Email</label>
+  <input #emailInput formControlName="email"> 
+  <br>
+  <label #item>Password</label>
+  <input formControlName="password">
+  <br>
+  <label #item>Confirm Password</label>
+  <input formControlName="cpass">
+  <p *ngIf="registrationForm.errors?.['passwordMismatch'] && registrationForm.get('cpass')?.touched" style="color:red">
+    Passwords do not match!
+  </p>
+  <br>
+  <!-- <input type="button" value="Submit" > -->
+  <button type="submit" [disabled]="registrationForm.invalid">Register</button>
+</form>
