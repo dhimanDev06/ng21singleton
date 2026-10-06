@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnDestroy } from '@angular/core';
 import { ApiService } from '../../services/api';
-import { finalize, Subject, take, takeUntil } from 'rxjs';
+import { finalize, interval, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 
@@ -21,6 +21,18 @@ export class RxjsTest implements OnDestroy {
   constructor() {
 
     console.log('🟢 Component Created');
+    interval(5000).pipe(
+    switchMap(() => {
+      console.log('Calling API...');
+      return this.apiService.getAllObjects();
+    }),
+
+    takeUntilDestroyed(this.destroyRef)
+    ).subscribe((data)=>{
+      console.log('🔵 Data fetched every 5 seconds:', data);
+    });
+
+
 
     this.apiService.getAllObjects().pipe(
 

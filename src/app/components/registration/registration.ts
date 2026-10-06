@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, viewChild, viewChildren } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
+import { NameValidate } from './nameValidation';
 @Component({
   selector: 'app-registration',
   imports: [CommonModule, ReactiveFormsModule],
@@ -17,7 +18,7 @@ export class Registration implements OnInit {
   ngOnInit(): void {
     
     this.registrationForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      username: new FormControl('', [Validators.required, Validators.minLength(3), NameValidate]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       cpass: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -31,7 +32,7 @@ export class Registration implements OnInit {
 
       if(nameInputEl && nameInputEl?.value != ""){ 
         console.log("Name input has a value, hiding the input field.");
-        nameInputEl.style.display = 'none'; // Hide the input field if it has a value
+        // nameInputEl.style.display = 'none'; // Hide the input field if it has a value
       }
     });
 
