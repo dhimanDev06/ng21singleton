@@ -1,7 +1,9 @@
-import { Component, ElementRef, OnInit, viewChild, viewChildren } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, viewChild, viewChildren } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
-import { NameValidate } from './nameValidation';
+import { NameValidate } from './customNameValidation';
+import { asynEmailValidation } from './asyncEmailValidation';
+import { ApiService } from '../../services/api';
 @Component({
   selector: 'app-registration',
   imports: [CommonModule, ReactiveFormsModule],
@@ -14,12 +16,13 @@ export class Registration implements OnInit {
   private emailInputRef = viewChild<ElementRef<HTMLInputElement>>('emailInput');  
   private nameInputref = viewChild<ElementRef<HTMLInputElement>>('nameInput');
 
+  private apiService = inject(ApiService);
   private itemRef = viewChildren<ElementRef<HTMLInputElement>>('item');
   ngOnInit(): void {
     
     this.registrationForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(3), NameValidate]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.email], [asynEmailValidation(this.apiService)]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       cpass: new FormControl('', [Validators.required, Validators.minLength(6)]),
     }, {
