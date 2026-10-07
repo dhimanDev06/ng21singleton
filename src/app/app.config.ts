@@ -8,12 +8,13 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { postsReducer } from './store/reducers/post.reducer';
 import { authInterceptor } from './services/authInterceptor';
+import { errorInterceptor } from './services/errorInterceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor,errorInterceptor])
     ),
     provideRouter(routes),
     provideStore(),
