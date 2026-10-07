@@ -50,6 +50,10 @@ export class ApiService {
     return this.http.get<ApiObject>(`${this.baseUrl}/posts/${id}`);
   }
 
+  getRefreshToken(): Observable<{ access_token: string }> {
+    return this.http.get<{ access_token: string }>(`${this.baseUrl}/refresh-token`);
+  }
+
   getPosts(): Observable<PostInterface[]> {
     return this.http
       .get<PostInterface[]>(
