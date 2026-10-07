@@ -1,5 +1,5 @@
 import { HttpInterceptorFn } from "@angular/common/http";
-
+import { catchError, throwError } from "rxjs";
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = localStorage.getItem('access_token');
@@ -19,5 +19,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }
   });
 
-  return next(authReq);
+
+  return next(authReq).pipe(
+    catchError((error) => {
+        console.error('HTTP request failed:', error);
+        if (error.status === 401) {
+            console.error('Unauthorized request. Token may be invalid or expired.', error);
+             sessionStorage.removeItem('access_token');
+            // Redirect to login
+            window.location.href = '/registration';
+            // Optionally, you can redirect to login page or handle token refresh here.
+        }
+        return throwError(() => error);
+    })
+  );
 };
