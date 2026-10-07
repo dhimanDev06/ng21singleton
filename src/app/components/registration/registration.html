@@ -4,12 +4,28 @@
   <input #nameInput formControlName="username">
   @if(registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched){
     <p  style="color:red">
-      Required
+      {{ getValidationMessage(registrationForm.get('username')) }}
     </p>
   }
   <br>
   <label #item>Email</label>
   <input #emailInput formControlName="email"> 
+  <br>
+  <label #item>Country</label>
+  <select
+    formControlName="country"
+    (change)="countryChanged($any($event.target).value)">
+
+    <option value="">Select Country</option>
+    <option value="India">India</option>
+    <option value="USA">USA</option>
+
+  </select>
+  <br>
+  <div *ngIf="registrationForm.get('country')?.value === 'USA'">
+    <label #item>State</label>
+    <input #stateInput formControlName="state"> 
+  </div>
   <br>
   <label #item>Password</label>
   <input formControlName="password">
